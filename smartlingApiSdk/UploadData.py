@@ -22,10 +22,11 @@ class UploadData:
     callbackUrl = ""
     directives = []
 
-    def __init__(self, path, name, type):
+    def __init__(self, path, name, type, uri):
         self.path = path
         self.name = name
         self.type = type
+        self.uri = uri
 
     def setApproveContent(self, approveContent):
         self.approveContent = approveContent

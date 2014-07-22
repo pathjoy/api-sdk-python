@@ -50,14 +50,14 @@ class FileApiBase:
         except urllib2.HTTPError, e:
             response = e
         if sys.version_info[:2] >= (2,6):
-            status_code = response.getcode() 
+            status_code = response.getcode()
         else:
             status_code = 0 #value for python v2.5 and less
         response_data = response.read().strip()
         if self.response_as_string:
             return response_data, status_code
         return ApiResponse(response_data, status_code), status_code
-        
+
     def command_raw(self, method, uri, params):
         self.addApiKeys(params)
         params_encoded = urllib.urlencode(params)
@@ -78,7 +78,7 @@ class FileApiBase:
 
     def commandUpload(self, uploadData):
         params = {
-                    Params.FILE_URI: uploadData.name,
+                    Params.FILE_URI: uploadData.uri,
                     Params.FILE_TYPE: uploadData.type,
                     Params.FILE_PATH: uploadData.path + uploadData.name
                   }
@@ -102,7 +102,7 @@ class FileApiBase:
         if locale is not None:
             kw[Params.LOCALE] = locale
         return self.command(ReqMethod.GET, Uri.LAST_MODIFIED, kw)
-        
+
     def commandGet(self, fileUri, locale, **kw):
         kw[Params.FILE_URI] = fileUri
         kw[Params.LOCALE] = locale
@@ -117,7 +117,7 @@ class FileApiBase:
         kw[Params.FILE_URI] = fileUri
 
         return self.command(ReqMethod.POST, Uri.DELETE, kw)
-        
+
     def commandImport(self, uploadData, locale, **kw):
         kw[Params.FILE_URI]  = uploadData.uri
         kw[Params.FILE_TYPE] = uploadData.type
